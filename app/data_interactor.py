@@ -18,4 +18,14 @@ class DataInteractor:
 
     def get_all_contacts(self):
         contacts = self.contacts_collection.find()
+        return [{"id": str(contact["_id"]), "first_name": contact["first_name"], "last_name": contact["last_name"], "phone_number": contact["phone_number"]} for contact in contacts]
+    
+    def check_db(self):
+        try:
+            self.client.admin.command("ping")
+            return True
+        except Exception as e:
+            print(f"Database connection error: {e}")
+            return False
+    
 

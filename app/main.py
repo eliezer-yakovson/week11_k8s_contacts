@@ -22,7 +22,16 @@ def create_contact(contact: Contact):
     contact_id = data_interactor.create_contact(contact_data)
     return {"message": "Contact created successfully", "id": contact_id}
 
+@app.get("/health/db")
+def check_db():
+    if data_interactor.check_db():
+        return {"mongo": "connected"}
+    else:
+        return {"mongo": "not connected"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
 
