@@ -22,6 +22,23 @@ def create_contact(contact: Contact):
     contact_id = data_interactor.create_contact(contact_data)
     return {"message": "Contact created successfully", "id": contact_id}
 
+@app.put("/contacts/{id}")
+def update_contact(id: str, contact: Contact):
+    contact_data = contact.dict()
+    success = data_interactor.update_contact(id, contact_data)
+    if success:
+        return {"message": "Contact updated successfully"}
+    else:
+        return {"message": "Contact not found"}
+    
+@app.delete("/contacts/{id}")
+def delete_contact(id: str):
+    success = data_interactor.delete_contact(id)
+    if success:
+        return {"message": "Contact deleted successfully"}
+    else:
+        return {"message": "Contact not found"}
+
 @app.get("/health/db")
 def check_db():
     if data_interactor.check_db():
